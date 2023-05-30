@@ -37,10 +37,10 @@ if __name__ == '__main__':
     sleep(3.0)
     print("This is not a good place to be, try to get out." "\n")
     sleep(3.0)
-    print("Good luck" + name + " , and don't fuck it up!" "\n")
+    print("Good luck " + name + ", and don't fuck it up!" "\n")
     sleep(3.0)
     count = 0
-    while inventory.player.hp > 0:
+    while inventory.Player.hp > 0:
         total = 0
         for num in tqdm([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]):
             sleep(0.25)
@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
         sleep(3.0)
         print('You can attack or befriend them.' "\n")
-        catacomb_functions.obstacle_type_print(catacomb_functions.random_obstacle)
+        inventory.Obstacle.obstacle_type_print(random_obstacle)
         sleep(3.0)
 
         catacomb_functions.get_action_choice()
@@ -68,9 +68,15 @@ if __name__ == '__main__':
 
         elif count % 5 == 0:
             # every 5 times the loop runs
-            catacomb_functions.level_up_obstacles(screens.defeated_obstacles)
-
-        if inventory.player.hp <= 0:
+            catacomb_functions.level_up_obstacles()
+        elif count % 2 == 0:
+            random_number = random.randint(1, 100)
+            if random_number < 2:
+                inventory.Player.lose_health()
+            for i in range(2, int(random_number ** 0.5) + 1):
+                if random_number % i == 0:
+                    inventory.Player.gain_health()
+        if inventory.Player.hp <= 0:
             break
 
     # execute another function after the loop is done

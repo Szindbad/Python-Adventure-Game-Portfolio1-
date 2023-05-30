@@ -2,7 +2,6 @@
 from self import self
 
 import screens
-from inventory import player
 import inventory
 from inventory import Obstacle
 import main
@@ -129,60 +128,12 @@ def which_door_opens():
         break
 
 
-# add something related to obstacle type here, connected to philosophy
-
-def obstacle_type_print(random_obstacle):
-    obstacle_type = random_obstacle.type
-    if obstacle_type == "Existentialist":
-        print('It is saying something! One is not born, but rather becomes, a woman.')
-    elif obstacle_type == "Nihilist":
-        print('It is saying something! God is dead.')
-    elif obstacle_type == "Absurdist":
-        print('It is saying something! I rebel; therefore, I exist.')
-    elif obstacle_type == "Skeptic":
-        print('It is saying something! Doubt is not a pleasant condition, but certainty is absurd.')
-    elif obstacle_type == "Solipsist":
-        print("It is saying something! I am the master of my fate; I am the captain of my soul.")
-    elif obstacle_type == "Postmodernist":
-        print("It is saying something! There are no facts, only interpretations.")
-    elif obstacle_type == "Deconstructionist":
-        print("It is saying something! There is nothing outside the text.")
-    elif obstacle_type == "Pragmatist":
-        print("It is saying something! The meaning of a proposition is the method of its verification")
-    elif obstacle_type == "Moral Relativist":
-        print("It is saying something! There is no objective moral truth!")
-    elif obstacle_type == "Determinist":
-        print("It is saying something! We are all just machines made of flesh and blood, following the laws of nature.")
-    elif obstacle_type == "Free Thinker":
-        print("It is saying something! Dare to think for yourself.")
-    elif obstacle_type == "Idealist":
-        print("It is saying something! Reality is merely an illusion, albeit a very persistent one.")
-    elif obstacle_type == "Materialist":
-        print("It is saying something and accompanied by a ghost! Matter is the only reality, "
-              "and everything can be reduced to material elements.")
-    elif obstacle_type == "Hedonist":
-        print("It is saying something! Eat, drink, and be merry, for tomorrow we die.")
-    elif obstacle_type == "Stoic":
-        print("It is saying something! The obstacle is the way.")
-    elif obstacle_type == "Cynic":
-        print("It is saying something! I threw my cup away when I saw a child drinking from his hands at the trough.")
-    elif obstacle_type == "Epicurean":
-        print("It is saying something! ")
-    elif obstacle_type == "Sophist":
-        print("It is saying something! Man is the measure of all things.")
-    elif obstacle_type == "Utilitarian":
-        print("It is saying something! The art of living well and the art of dying well are one.")
-    elif obstacle_type == "Transcendentalist":
-        print("It is saying something! Do not go where the path may lead, go instead "
-              "where there is no path and leave a trail.")
-
-
 # in case the obstacle attacks back
 def obstacle_attack():
     damage = random.randint(0, 5)
-    inventory.player.hp -= damage
-    print(f"The enemy strikes for {damage} damage! Your HP is now {inventory.player.hp}." "\n")
-    if damage >= inventory.player.hp:
+    inventory.Player.hp -= damage
+    print(f"The enemy strikes for {damage} damage! Your HP is now {inventory.Player.hp}." "\n")
+    if damage >= inventory.Player.hp:
         print("The light of the Valar is fading in you!" "\n")
         print(game_over())
     else:
@@ -198,30 +149,13 @@ screen = {
 }
 
 
-# probably for items, applied in a later stage
-def lose_health(self, amount):
-    """Reduces the player's health by the given amount."""
-    self.health -= amount
-    if self.health <= 0:
-        print(f"{self.name} has died!" "\n")
-    else:
-        print(f"{self.name} has {self.health} health remaining." "\n")
-
-
-# for items, future version
-def gain_health(self, amount):
-    """Increases the player's health by the given amount."""
-    self.health += amount
-    print(f"{self.name} has gained {amount} health. {self.name} now has {self.health} health." "\n")
-
-
 # after certain number of loops, this should happen
-def level_up_obstacles(defeated_obstacles):
+def level_up_obstacles():
     """Levels up the obstacles"""
     global random_obstacle
     count_list_elements = lambda x: len(x)
     for random_obstacle in screens.defeated_obstacles:
-        if count_list_elements(defeated_obstacles) > inventory.player.game_level:
+        if count_list_elements(screens.defeated_obstacles) > inventory.Player.game_level:
             inventory.Obstacle.level += 4
             print('You progress deeper into the unknown, get ready for some tougher enemies!' "\n")
     return random_obstacle.level
@@ -234,13 +168,13 @@ def level_up_obstacles(defeated_obstacles):
 async def check_player_hp():
     while True:
         await asyncio.sleep(1)  # Check player's HP every second
-        if inventory.player.hp < 0:
+        if inventory.Player.hp < 0:
             game_over()
 
 
 def game_over():
     """if player is dead, game end"""
-    if player.lives == 0:
+    if inventory.Player.lives == 0:
         print('''
         ┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼
         ███▀▀▀██┼███▀▀▀███┼███▀█▄█▀███┼██▀▀▀
