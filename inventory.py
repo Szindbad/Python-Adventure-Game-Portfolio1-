@@ -1,9 +1,12 @@
 from typing import List, Any
+
+import self
+
 import catacomb_functions
+import random
 
 
 class Player:
-    lives = 3
     game_level = 1
     hp = 100
 
@@ -18,19 +21,29 @@ class Player:
                               10: False, 11: False, 12: False}
         self.game_level = 1
 
-    def lose_health(self, amount):
+    def lose_health(self):
         """Reduces the player's health by the given amount."""
-        self.hp -= amount
+        self.hp -= 3
         if self.hp <= 0:
             print(f"{self.name} has died!\n")
         else:
-            print(f"A mysterious voice murmurs through the walls; {self.name} has {self.hp} health remaining.\n")
+            print(f"A mysterious voice murmurs through the walls; We have {self.hp} health remaining.\n")
 
-    def gain_health(self, amount):
+    def gain_health(self):
         """Increases the player's health by the given amount."""
-        self.hp += amount
-        print(f"A mysterious voice murmurs through the walls; {self.name} has gained {amount} health. "
-              f"{self.name} now has {self.hp} health.\n")
+        self.hp += 3
+        print(f"A mysterious voice murmurs through the walls; We have gained {3} health. "
+              f"We have now {self.hp} health.\n")
+
+    def obstacle_attack(self):
+        damage = random.randint(0, 5)
+        self.hp -= damage
+        print(f"The enemy strikes for {damage} damage! Your HP is now {self.hp}." "\n")
+        if damage >= self.hp:
+            print("The light of the Valar is fading in you!" "\n")
+            print(catacomb_functions.game_over())
+        else:
+            catacomb_functions.another_chance()
 
 
 class Obstacle:
@@ -39,7 +52,7 @@ class Obstacle:
     def __init__(self, name, type, level, health, damage):
         self.name = name
         self.type = type
-        self.level = level
+        self.level = 1
         self.health = health
         self.max_health = Obstacle.level * 3
         self.is_active = True
@@ -91,5 +104,3 @@ class Obstacle:
         elif obstacle_type == "Transcendentalist":
             print("It is saying something! Do not go where the path may lead, go instead "
                   "where there is no path and leave a trail.")
-
-

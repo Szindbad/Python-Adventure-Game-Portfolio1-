@@ -1,12 +1,10 @@
-# import path from screens just like a module
-from self import self
 
 import screens
 import inventory
 from inventory import Obstacle
 import main
 import random
-import asyncio
+from main import player_instance
 
 
 def create_random_world1_screen():
@@ -20,7 +18,7 @@ def create_random_world1_screen():
     doors = random.sample(screens.doors, 4)
     screen_id = random.randint(1000, 9999)
     damage = random.randint(1, 20)
-    screens.screens_id.append(screen_id)  # append screen_id to the list
+    screens.random_screens_id.append(screen_id)  # append screen_id to the list
     # create a string with the screen information
     obstacle_screen_str = f"You are in {title}. This place is {description} You see a {obstacle}, " \
                           f"it has {health} life points." \
@@ -87,21 +85,21 @@ def attack_world1():
         screens.defeated_obstacles.append(obstacle_instance)
     else:
         print(random.choice(screens.attack_sentences))
-        obstacle_attack()
+        player_instance.obstacle_attack()
 
 
 def befriend_world1():
     random_number = random.randint(0, 5)
 
     if random_number == 0:
-        print("You became friends with " + random_obstacle.name + ", how lovely!" "\n")
+        print("You became friends with " + obstacle_instance.name + ", how lovely!" "\n")
     elif random_number == 1:
         print("You became associates, how interesting!" "\n")
     elif random_number == 2:
         print("You know each other from now on! Awkwardly wave next time you see each other on the bus!" "\n")
     else:
         print("They don't like you!" "\n")
-        print(obstacle_attack())
+        print(player_instance.obstacle_attack())
 
 
 def which_door_opens():
@@ -113,9 +111,11 @@ def which_door_opens():
             door_closed_str = random.choice(screens.door_closed_strings)
             print(door_closed_str)
             choice = input('Which door will you take?')
+            screens.door_choices.append(choice)
             while choice.lower() not in main.door_choices:
                 print('Invalid choice. Please choose A, B, C, or D.')
                 choice = input('Which door will you take?')
+                screens.door_choices.append(choice)
             chosen_door = main.door_choices[choice.lower()]
             print(f'You chose {chosen_door}.')  # embed the value of the chosen_door inside the string
         else:
@@ -128,20 +128,8 @@ def which_door_opens():
         break
 
 
-# in case the obstacle attacks back
-def obstacle_attack():
-    damage = random.randint(0, 5)
-    inventory.Player.hp -= damage
-    print(f"The enemy strikes for {damage} damage! Your HP is now {inventory.Player.hp}." "\n")
-    if damage >= inventory.Player.hp:
-        print("The light of the Valar is fading in you!" "\n")
-        print(game_over())
-    else:
-        another_chance()
-
-
 screen = {
-    "id": screens.screens_id,
+    "id": screens.random_screens_id,
     "title": screens.titles,
     "description": screens.description,
     "obstacle": screens.obstacles,
@@ -161,20 +149,9 @@ def level_up_obstacles():
     return random_obstacle.level
 
 
-# functions related to GAME OVER
-
-
-# this is not in use at the moment, might not need it as I found an easier solution
-async def check_player_hp():
-    while True:
-        await asyncio.sleep(1)  # Check player's HP every second
-        if inventory.Player.hp < 0:
-            game_over()
-
-
 def game_over():
     """if player is dead, game end"""
-    if inventory.Player.lives == 0:
+    if inventory.Player.hp == 0:
         print('''
         ┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼
         ███▀▀▀██┼███▀▀▀███┼███▀█▄█▀███┼██▀▀▀

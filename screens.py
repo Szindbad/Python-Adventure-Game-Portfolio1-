@@ -208,8 +208,8 @@ door_closed_strings = ['This door would not budge.', 'This one needs a key proba
                        "The door is a reflection of the human desire to explore,"
                        " tempered by the knowledge that some things are best left undiscovered. "
                        "Yet, you need to get out, try another one."]
-screens_id = []
-
+random_screens_id = []
+door_choices = []
 # create id, create description (add skeleton text, append words according to other items, description create end
 # of the code
 # , create choices 1-4, later in the game MAYBE 1-6 (cube), add obstacle from obstacle list

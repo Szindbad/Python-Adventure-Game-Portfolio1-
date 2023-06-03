@@ -7,6 +7,7 @@ import random
 
 door_choices = {'a': 'first', 'b': 'second', 'c': 'third', 'd': 'fourth'}
 action_choices = ['attack', 'befriend']
+player_instance = inventory.Player()
 
 
 if __name__ == '__main__':
@@ -40,7 +41,7 @@ if __name__ == '__main__':
     print("Good luck " + name + ", and don't fuck it up!" "\n")
     sleep(3.0)
     count = 0
-    while inventory.Player.hp > 0:
+    while player_instance.hp > 0:
         total = 0
         for num in tqdm([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]):
             sleep(0.25)
@@ -54,7 +55,7 @@ if __name__ == '__main__':
 
         sleep(3.0)
         print('You can attack or befriend them.' "\n")
-        inventory.Obstacle.obstacle_type_print(random_obstacle)
+        inventory.Obstacle.obstacle_type_print(catacomb_functions.random_obstacle)
         sleep(3.0)
 
         catacomb_functions.get_action_choice()
@@ -72,11 +73,11 @@ if __name__ == '__main__':
         elif count % 2 == 0:
             random_number = random.randint(1, 100)
             if random_number < 2:
-                inventory.Player.lose_health()
+                player_instance.lose_health()
             for i in range(2, int(random_number ** 0.5) + 1):
                 if random_number % i == 0:
-                    inventory.Player.gain_health()
-        if inventory.Player.hp <= 0:
+                    player_instance.gain_health()
+        if player_instance.hp <= 0:
             break
 
     # execute another function after the loop is done
