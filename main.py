@@ -1,4 +1,6 @@
 from time import sleep
+
+
 import catacomb_functions
 import inventory
 from tqdm.asyncio import tqdm
@@ -8,7 +10,6 @@ import random
 door_choices = {'a': 'first', 'b': 'second', 'c': 'third', 'd': 'fourth'}
 action_choices = ['attack', 'befriend']
 player_instance = inventory.Player()
-
 
 if __name__ == '__main__':
 
@@ -51,11 +52,12 @@ if __name__ == '__main__':
             print('Invalid choice. Please choose A, B, C, or D.')
             choice = input('Which door will you take?')
         catacomb_functions.which_door_opens()
-        screen_str, random_obstacle = catacomb_functions.create_random_world1_screen()
-
+        screen_str, random_obstacle = inventory.Obstacle.create_random_world1_screen()
+        print(screen_str)
         sleep(3.0)
         print('You can attack or befriend them.' "\n")
-        inventory.Obstacle.obstacle_type_print(random_obstacle=random_obstacle)
+
+        random_obstacle.obstacle_type_print()
         sleep(3.0)
 
         catacomb_functions.get_action_choice()
@@ -71,10 +73,10 @@ if __name__ == '__main__':
         elif count % 2 == 0:
             random_number = random.randint(1, 100)
             if random_number < 2:
-                player_instance.lose_health()
+                inventory.Player().lose_health()
             for i in range(2, int(random_number ** 0.5) + 1):
                 if random_number % i == 0:
-                    player_instance.gain_health()
+                    inventory.Player().gain_health()
         if player_instance.hp <= 0:
             break
 

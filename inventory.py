@@ -1,14 +1,9 @@
-from typing import List, Any
-
-import self
-
 import catacomb_functions
 import random
+import screens
 
 
 class Player:
-    game_level = 1
-    hp = 100
 
     def __init__(self):
         self.name = ''
@@ -27,19 +22,19 @@ class Player:
         if self.hp <= 0:
             print(f"{self.name} has died!\n")
         else:
-            print(f"A mysterious voice murmurs through the walls; We have {self.hp} health remaining.\n")
+            print(f"The wall is speaking, or is it my waking consciousness; We have {self.hp} health remaining.\n")
 
     def gain_health(self):
         """Increases the player's health by the given amount."""
         self.hp += 3
-        print(f"A mysterious voice murmurs through the walls; We have gained {3} health. "
+        print(f"I hear something or someone speaking again; We have gained {3} health. "
               f"We have now {self.hp} health.\n")
 
     def obstacle_attack(self):
         damage = random.randint(0, 5)
         self.hp -= damage
         print(f"The enemy strikes for {damage} damage! Your HP is now {self.hp}." "\n")
-        if damage >= self.hp:
+        if self.hp <= 0:
             print("The light of the Valar is fading in you!" "\n")
             print(catacomb_functions.game_over())
         else:
@@ -47,20 +42,43 @@ class Player:
 
 
 class Obstacle:
-    level = 1
-
     def __init__(self, name, type, level, health, damage):
         self.name = name
         self.type = type
-        self.level = 1
+        self.level = level
         self.health = health
-        self.max_health = Obstacle.level * 3
+        self.max_health = level * 3
         self.is_active = True
         self.damage = damage
 
-    def obstacle_type_print(**kwargs):
-        random_obstacle = kwargs.get('random_obstacle')
-        obstacle_type = random_obstacle.type
+    @staticmethod
+    def create_random_world1_screen(random_obstacle=True):
+        """Creates a random screen and returns an instance of Obstacle"""
+        title = random.choice(screens.titles)
+        description = random.choice(screens.description)
+        name = random.choice(screens.obstacles)
+        health = random.randint(1, 5)
+        obstacle_type = random.choice(screens.obstacle_types)
+        doors = random.sample(screens.doors, 4)
+        screen_id = random.randint(1000, 9999)
+        damage = random.randint(1, 20)
+
+        obstacle = Obstacle(name, obstacle_type, 1, health, damage)
+
+        screens.random_screens_id.append(screen_id)  # append screen_id to the list
+
+        obstacle_screen_str = f"You are in {title}. This place is {description}. You see a {name}, " \
+                              f"it has {health} life points. " \
+                              f"It seems like it is a {obstacle_type}. " \
+                              f"What do you do?"
+
+        if random_obstacle:
+            return obstacle_screen_str, obstacle
+        else:
+            return obstacle_screen_str
+
+    def obstacle_type_print(self):
+        obstacle_type = self.type
         if obstacle_type == "Existentialist":
             print('It is saying something! One is not born, but rather becomes, a woman.')
         elif obstacle_type == "Nihilist":
