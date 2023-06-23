@@ -1,4 +1,3 @@
-
 import screens
 import inventory
 from inventory import Obstacle
@@ -43,14 +42,13 @@ else:
 
 
 # after an unsuccessful attack or befriend, this gives the player the choice to do an action again
-def another_chance():
-    global another_chance_action_choice
+def another_chance(random_obstacle):
     another_chance_action_str = input(
         'It seems like this creature is tougher than it looks, you can choose to attack or befriend them again' "\n")
     flag = False
     while not flag:
         if another_chance_action_str.lower() not in main.action_choices:
-            print('Invalid choice. Please choose "attack" or "befriend".' "\n")
+            print('Invalid choice. Please choose "attack" or "befriend".\n')
             another_chance_action_str = input('Which will it be? ' "\n")
         else:
             if another_chance_action_str.lower() == main.action_choices[0]:
@@ -65,38 +63,40 @@ def another_chance():
 def get_action_choice():
     action_choices = ['attack', 'befriend']
     while True:
-        choice_action = input('Which will it be? ' "\n")
+        choice_action = input('Which will it be?\n')
         if choice_action.lower() not in action_choices:
-            print('Invalid choice. Please choose "attack" or "befriend".' "\n")
+            print('Invalid choice. Please choose "attack" or "befriend".\n')
         elif choice_action.lower() == action_choices[0]:
             screen_str, random_obstacle = create_random_world1_screen()
-            attack_world1()
+            attack_world1(random_obstacle=random_obstacle)  # Pass random_obstacle as an argument
             return
         elif choice_action.lower() == action_choices[1]:
-            print(befriend_world1())
+            screen_str, random_obstacle = create_random_world1_screen()
+            another_chance(random_obstacle=random_obstacle)  # Pass random_obstacle as an argument
             return
 
 
-def attack_world1():
+def attack_world1(random_obstacle):
     attack_power = random.randint(1, 5)
 
-    if attack_power >= obstacle_instance.health:
+    if attack_power >= random_obstacle.health:
         print("You vanquished your enemy!" "\n")
-        screens.defeated_obstacles.append(obstacle_instance)
+        screens.defeated_obstacles.append(random_obstacle)
     else:
         print(random.choice(screens.attack_sentences))
-        player_instance.obstacle_attack()
+        player_instance.obstacle_attack(random_obstacle=random_obstacle)
 
 
 def befriend_world1():
+    screen_str, random_obstacle = create_random_world1_screen()
     random_number = random.randint(0, 5)
-
     if random_number == 0:
-        print("You became friends with " + obstacle_instance.name + ", how lovely!" "\n")
+        print("You became friends with " + random_obstacle.name + ", how lovely!" "\n")
     elif random_number == 1:
-        print("You became associates, how interesting!" "\n")
+        print("You became associates with " + random_obstacle.name + ", how interesting!" "\n")
     elif random_number == 2:
-        print("You know each other from now on! Awkwardly wave next time you see each other on the bus!" "\n")
+        print(
+            "You know each other from now on! Awkwardly wave next time you see " + random_obstacle.name + " on the bus!" "\n")
     else:
         print("They don't like you!" "\n")
         print(player_instance.obstacle_attack())

@@ -58,7 +58,8 @@ class Obstacle:
         self.is_active = True
         self.damage = damage
 
-    def obstacle_type_print(random_obstacle):
+    def obstacle_type_print(**kwargs):
+        random_obstacle = kwargs.get('random_obstacle')
         obstacle_type = random_obstacle.type
         if obstacle_type == "Existentialist":
             print('It is saying something! One is not born, but rather becomes, a woman.')

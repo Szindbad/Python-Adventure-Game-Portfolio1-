@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
         sleep(3.0)
         print('You can attack or befriend them.' "\n")
-        inventory.Obstacle.obstacle_type_print(catacomb_functions.random_obstacle)
+        inventory.Obstacle.obstacle_type_print(random_obstacle=random_obstacle)
         sleep(3.0)
 
         catacomb_functions.get_action_choice()
@@ -66,9 +66,7 @@ if __name__ == '__main__':
         count += 1
         if count % 3 == 0:
             print(random.choice(screens.catacomb_facts))
-
         elif count % 5 == 0:
-            # every 5 times the loop runs
             catacomb_functions.level_up_obstacles()
         elif count % 2 == 0:
             random_number = random.randint(1, 100)
