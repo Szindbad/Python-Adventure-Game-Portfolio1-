@@ -41,6 +41,9 @@ class Player:
             catacomb_functions.another_chance()
 
 
+player_instance = Player()
+
+
 class Obstacle:
     def __init__(self, name, type, level, health, damage):
         self.name = name
@@ -76,6 +79,17 @@ class Obstacle:
             return obstacle_screen_str, obstacle
         else:
             return obstacle_screen_str
+
+    def level_up_obstacles(self):
+        """Levels up the obstacles"""
+        count_list_elements = lambda x: len(x)
+
+        for defeated_obstacle in screens.defeated_obstacles:
+            if count_list_elements(screens.defeated_obstacles) > player_instance.game_level:
+                defeated_obstacle.level += 4
+                print('You progress deeper into the unknown, get ready for some tougher enemies!\n')
+
+        return self.level
 
     def obstacle_type_print(self):
         obstacle_type = self.type

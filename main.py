@@ -69,7 +69,7 @@ if __name__ == '__main__':
         if count % 3 == 0:
             print(random.choice(screens.catacomb_facts))
         elif count % 5 == 0:
-            catacomb_functions.level_up_obstacles()
+            inventory.Obstacle().level_up_obstacles()
         elif count % 2 == 0:
             random_number = random.randint(1, 100)
             if random_number < 2:

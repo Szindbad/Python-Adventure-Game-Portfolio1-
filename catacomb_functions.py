@@ -19,7 +19,7 @@ def another_chance():
             another_chance_action_str = input('Which will it be? ' "\n")
         else:
             if another_chance_action_str.lower() == main.action_choices[0]:
-                print(attack_world1())
+                print(attack_world1(random_obstacle=random_obstacle))
             elif another_chance_action_str.lower() == main.action_choices[1]:
                 print(befriend_world1(random_obstacle=random_obstacle))
             flag = True
@@ -104,20 +104,6 @@ screen = {
     "obstacle": screens.obstacles,
     "doors": screens.doors
 }
-
-
-# after certain number of loops, this should happen
-def level_up_obstacles():
-    """Levels up the obstacles"""
-    count_list_elements = lambda x: len(x)
-
-    for main.random_obstacle in screens.defeated_obstacles:
-        if count_list_elements(screens.defeated_obstacles) > player_instance.game_level:
-            random_obstacle.level += 4
-            print('You progress deeper into the unknown, get ready for some tougher enemies!\n')
-
-    return main.random_obstacle.level
-
 
 def game_over():
     """if player is dead, game end"""
