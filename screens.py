@@ -210,8 +210,4 @@ door_closed_strings = ['This door would not budge.', 'This one needs a key proba
                        "Yet, you need to get out, try another one."]
 random_screens_id = []
 door_choices = []
-# create id, create description (add skeleton text, append words according to other items, description create end
-# of the code
-# , create choices 1-4, later in the game MAYBE 1-6 (cube), add obstacle from obstacle list
-# acle dictionary, dictionary_name[key] = value instead of append
-# according to the number of doors
+

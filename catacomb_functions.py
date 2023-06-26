@@ -105,6 +105,7 @@ screen = {
     "doors": screens.doors
 }
 
+
 def game_over():
     """if player is dead, game end"""
     if inventory.Player.hp <= 0:
